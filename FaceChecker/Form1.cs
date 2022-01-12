@@ -55,6 +55,27 @@ namespace FaceChecker
                 MessageBox.Show(e.Message);
             }
         }
+        public void StopVideoCapture()
+        {
+            try
+            {
+                if (capture != null)
+                {
+                    capture.Pause();
+                    capture.Dispose();
+                    capture = null;
+
+                    Camera.Image.Dispose();
+                    //pictureBox1.Image = null;
+
+                    selectedCamId = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public void Capture_ImageGrabbed(object sender, EventArgs e)
         {
             try
@@ -71,7 +92,11 @@ namespace FaceChecker
 
         private void MakeFoto_Click(object sender, EventArgs e)
         {
-
+            Bitmap bmp1 = new Bitmap(Camera.Image);
+            bmp1.Save("123.jpeg");
+            StopVideoCapture();
+            groupBox1.Text = "Фото с камеры";
+            Camera.Image = bmp1;
         }
 
         private void Cameras_SelectedIndexChanged(object sender, EventArgs e)
