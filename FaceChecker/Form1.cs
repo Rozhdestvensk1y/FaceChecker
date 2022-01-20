@@ -15,6 +15,8 @@ using Emgu.Util;
 using Emgu.CV.Structure;
 using FaceRecognition;
 using DirectShowLib;
+using System.Net.Mail;
+using System.Net;
 
 namespace FaceChecker
 {
@@ -121,6 +123,32 @@ namespace FaceChecker
         private void button1_Click(object sender, EventArgs e)
         {
             faceRec.isTrained = true;
+        }
+        public void SendMessage()
+        {
+            // отправитель - устанавливаем адрес и отображаемое в письме имя
+            MailAddress from = new MailAddress("roketa1337@gmail.com", "Nick");
+            // кому отправляем
+            MailAddress to = new MailAddress("roketa1337@mail.ru");
+            // создаем объект сообщения
+            MailMessage m = new MailMessage(from, to);
+            // тема письма
+            m.Subject = "Тест";
+            // текст письма
+            m.Body = "<h2>Письмо-тест работы smtp-клиента</h2>";
+            // письмо представляет код html
+            m.IsBodyHtml = true;
+            // адрес smtp-сервера и порт, с которого будем отправлять письмо
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            // логин и пароль
+            smtp.Credentials = new NetworkCredential("roketa1337@gmail.com", "mjavtykzbayomoag");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SendMessage();
         }
     }
 }
