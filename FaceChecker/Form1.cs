@@ -13,7 +13,7 @@ using Emgu.CV;
 using Emgu.CV.Util;
 using Emgu.Util;
 using Emgu.CV.Structure;
-
+using FaceRecognition;
 using DirectShowLib;
 
 namespace FaceChecker
@@ -23,6 +23,7 @@ namespace FaceChecker
         private DsDevice[] webCams = null;
         private int selectedCamId = 0;
         public Capture capture = null;
+        FaceRec faceRec = new FaceRec();
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +32,8 @@ namespace FaceChecker
         private void StreamVideo_Click(object sender, EventArgs e)
         {
             groupBox1.Text = "Камера";
-            StreamVideo();
+            //StreamVideo();
+            faceRec.openCamera(Camera, pictureBox1);
         }
 
         private void StreamVideo()
@@ -110,5 +112,15 @@ namespace FaceChecker
                 Cameras.Items.Add(cam.Name);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            faceRec.Save_IMAGE(textBox1.Text);
+            MessageBox.Show("Успешно!");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            faceRec.isTrained = true;
+        }
     }
 }
