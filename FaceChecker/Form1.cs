@@ -64,7 +64,6 @@ namespace FaceChecker
                     capture.Pause();
                     capture.Dispose();
                     capture = null;
-
                     Camera.Image.Dispose();
                     //pictureBox1.Image = null;
 
