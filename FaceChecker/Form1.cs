@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Emgu;
 using Emgu.CV;
 using Emgu.CV.Util;
@@ -27,7 +20,6 @@ namespace FaceChecker
         private DsDevice[] webCams = null;
         private int selectedCamId = 0;
         public Capture capture = null;
-        List<FaceRec> fr = new List<FaceRec>(); 
         FaceRec faceRec = new FaceRec();
         public Form1()
         {
@@ -37,10 +29,9 @@ namespace FaceChecker
         private void StreamVideo_Click(object sender, EventArgs e)
         {
             groupBox1.Text = "Камера";
-            //StreamVideo();
             faceRec.openCamera(Camera, pictureBox1);
         }
-
+        #region Неиспользуемое
         private void StreamVideo()
         {
             try
@@ -96,6 +87,12 @@ namespace FaceChecker
             }
         }
 
+        private void Cameras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedCamId = Cameras.SelectedIndex;
+        }
+        #endregion
+
         private void MakeFoto_Click(object sender, EventArgs e)
         {
             Bitmap bmp1 = new Bitmap(Camera.Image);
@@ -105,11 +102,6 @@ namespace FaceChecker
             Camera.Image = bmp1;
         }
 
-        private void Cameras_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedCamId = Cameras.SelectedIndex;
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             webCams = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
@@ -117,24 +109,29 @@ namespace FaceChecker
                 Cameras.Items.Add(cam.Name);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)//добавить лицо в распознаватель
         {
             faceRec.Save_IMAGE(textBox1.Text);
             MessageBox.Show("Успешно!");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//детект лица
         {
             faceRec.isTrained = true;
             faceRec.getPersonName(label1);
         }
+
+        private void button3_Click(object sender, EventArgs e)//отправить сообщение
+        {
+            SendMessage(label1.Text);
+        }
         public void SendMessage(string mailAddress)
         {
-            MailAddress from = new MailAddress("roketa1337@gmail.com", "Nick");
+            MailAddress from = new MailAddress("roketa1337@gmail.com", "Никита");
             MailAddress to = new MailAddress(mailAddress);
             MailMessage m = new MailMessage(from, to);
             // тема письма
-            m.Subject = "Тест";
+            m.Subject = "Фотография";
             // письмо представляет код html
             m.IsBodyHtml = true;
             m.AlternateViews.Add(getEmbeddedImage(@"D:\repos\FaceChecker\FaceChecker\bin\Debug\123.jpeg"));
@@ -146,10 +143,6 @@ namespace FaceChecker
             smtp.Send(m);
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            SendMessage(label1.Text);
-        }
         private AlternateView getEmbeddedImage(String filePath)
         {
             LinkedResource res = new LinkedResource(filePath);
