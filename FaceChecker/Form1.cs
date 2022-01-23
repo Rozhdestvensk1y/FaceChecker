@@ -17,6 +17,8 @@ using FaceRecognition;
 using DirectShowLib;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
+using System.Net.Mime;
 
 namespace FaceChecker
 {
@@ -25,6 +27,7 @@ namespace FaceChecker
         private DsDevice[] webCams = null;
         private int selectedCamId = 0;
         public Capture capture = null;
+        List<FaceRec> fr = new List<FaceRec>(); 
         FaceRec faceRec = new FaceRec();
         public Form1()
         {
@@ -97,8 +100,8 @@ namespace FaceChecker
         {
             Bitmap bmp1 = new Bitmap(Camera.Image);
             bmp1.Save("123.jpeg");
-            StopVideoCapture();
-            groupBox1.Text = "Фото с камеры";
+            //StopVideoCapture();
+            //groupBox1.Text = "Фото с камеры";
             Camera.Image = bmp1;
         }
 
@@ -123,21 +126,18 @@ namespace FaceChecker
         private void button1_Click(object sender, EventArgs e)
         {
             faceRec.isTrained = true;
+            faceRec.getPersonName(label1);
         }
-        public void SendMessage()
+        public void SendMessage(string mailAddress)
         {
-            // отправитель - устанавливаем адрес и отображаемое в письме имя
             MailAddress from = new MailAddress("roketa1337@gmail.com", "Nick");
-            // кому отправляем
-            MailAddress to = new MailAddress("roketa1337@mail.ru");
-            // создаем объект сообщения
+            MailAddress to = new MailAddress(mailAddress);
             MailMessage m = new MailMessage(from, to);
             // тема письма
             m.Subject = "Тест";
-            // текст письма
-            m.Body = "<h2>Письмо-тест работы smtp-клиента</h2>";
             // письмо представляет код html
             m.IsBodyHtml = true;
+            m.AlternateViews.Add(getEmbeddedImage(@"D:\repos\FaceChecker\FaceChecker\bin\Debug\123.jpeg"));
             // адрес smtp-сервера и порт, с которого будем отправлять письмо
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             // логин и пароль
@@ -148,7 +148,16 @@ namespace FaceChecker
 
         private void button3_Click(object sender, EventArgs e)
         {
-            SendMessage();
+            SendMessage(label1.Text);
+        }
+        private AlternateView getEmbeddedImage(String filePath)
+        {
+            LinkedResource res = new LinkedResource(filePath);
+            res.ContentId = Guid.NewGuid().ToString();
+            string htmlBody = @"<img src='cid:" + res.ContentId + @"'/>";
+            AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+            alternateView.LinkedResources.Add(res);
+            return alternateView;
         }
     }
 }
