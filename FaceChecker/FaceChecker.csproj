@@ -48,9 +48,8 @@
     <Reference Include="Emgu.CV.World, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EmguCV.3.1.0.1\lib\net30\Emgu.CV.World.dll</HintPath>
     </Reference>
-    <Reference Include="FaceRecognition, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FaceRecognition.dll</HintPath>
+    <Reference Include="FaceRecognition">
+      <HintPath>bin\Debug\x64\FaceRecognition.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.1.1.2225.0\lib\net20\OpenTK.dll</HintPath>
@@ -59,7 +58,7 @@
       <HintPath>..\packages\OpenTK.GLControl.1.1.2225.0\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
