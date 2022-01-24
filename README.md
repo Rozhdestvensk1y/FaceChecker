@@ -12,6 +12,10 @@ FaceChecker
 
 ·"Отправить" отвечает за отправку цельного изображения с определением лица на введённый почтовый адрес.При не заполненном почтовом адресе система выдаёт ошибку "Почта не найдена". 
 
+Пример работы программы:
+
 ![image](https://user-images.githubusercontent.com/66029262/150704937-91b4d05a-58e7-42d0-9c58-1204a32c066b.png)
+
 ![image](https://user-images.githubusercontent.com/66029262/150704962-b116133c-1026-4adf-b986-81b17da542d4.png)
+
 ![image](https://user-images.githubusercontent.com/66029262/150705013-613d859f-9df6-4319-9bb0-0063ec10f60a.png)
